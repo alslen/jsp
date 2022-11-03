@@ -18,7 +18,7 @@
 				return
 			}
 			// 관심분야 선택 안하면 선택하라는 alert
-			if($("input:checkbox[name='hobby']:checked").length==0) {
+			if($("input:checkbox[name='hobby']:checked").length==0) {  // 체크된 개수가 하나도 없으면, length:전체 개수
 				// type으로 접근 가능, input타입의 checkbox중에서 name이 hobby인거 찾아라.
 				alert("관신분야 선택")
 				return
