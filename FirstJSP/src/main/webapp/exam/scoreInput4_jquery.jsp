@@ -42,7 +42,7 @@
 
 </head>
 <body>
-	<form action="scoreResult.jsp" method="get" id="frm">
+	<form action="scoreResult4.jsp" method="get" id="frm" method="post">
 		<!-- onsubmit="return check()": 리턴의 결과 값이 따라 action이 실행됨 -->
 		이름 : <input type="text" name="name" id="name"> <br /> 국어 : <input
 			type="text" name="kor" id="kor"> <br /> 영어 : <input
