@@ -33,11 +33,11 @@
 </script>
 </head>
 <body>
-<a href="list.jsp">전체보기</a><br><br>
-<form action="insertPro.jsp" method="post" onsubmit="return check()">
+<a href="addrList.jsp">전체보기</a><br><br>
+<form action="insertProcess.jsp" method="post" onsubmit="return check()">
 	<table border="1">
 		<tr>
-			<td colspan="2">주소록 등록하기</td>
+			<td colspan="2">JQUERYADDRESS주소록 등록하기</td>
 		</tr>
 		<tr >
 			<td>이름</td>
