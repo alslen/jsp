@@ -14,39 +14,18 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-  
-<script>
-	function searchCheck(){
-		if(document.getElementById("word").value==""){
-			alert("검색어를 입력하세요");
-			document.getElementById("word").focus();
-			return;
-		}
-		document.getElementById("sfrm").submit();
-	}
-</script>
 
 <%
-	request.setCharacterEncoding("utf-8");
-	String field="";  
-	String word="";
-	if(request.getParameter("word")!=null){  // 검색
-		field = request.getParameter("field");
-		word = request.getParameter("word");
-	}
-	
 	AddressDAO dao = AddressDAO.getInstance();
-	ArrayList<Address> arr = dao.addressList(field, word);
-	int count = dao.getCount(field, word);
+	ArrayList<Address> arr = dao.addressList();
+	int count = dao.getCount();
 %>
 </head>
 
 <body>
 <div class="container">
 <div align="right">
-	<a href="insert.jsp">추가하기</a>
-	/ <span onclick="location.href='list.jsp'">전체보기</span>
-	<br><br>
+	<a href="insert.jsp">추가하기</a><br><br>
 </div>
 
 <h3>전체보기(<%=count %>)</h3>
@@ -96,14 +75,6 @@
 <% }  %>
 </tbody>
 </table>
-<form action="list.jsp" id="sfrm">
-	<select name="field">
-		<option value = "name">이름</option> <!-- value값은 컬럼명으로 적어주는게 좋다 -->
-		<option value = "addr">주소</option>
-	</select>
-	<input type="text" name="word" id="word">
-	<input type="button" value="검색" onclick="searchCheck()">
-</form>
 </div>
 
 </body>

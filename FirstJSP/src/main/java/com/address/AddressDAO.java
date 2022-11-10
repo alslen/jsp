@@ -47,16 +47,22 @@ public class AddressDAO {
 		}
 	}
 	
-	// 전체보기
-	public ArrayList<Address> addressList() {
+	// 전체보기(검색포함)
+	public ArrayList<Address> addressList(String field, String word) {
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
 		ArrayList<Address>arr = new ArrayList<Address>();  // Address형의 값들을 저장할 참조형
+		String sql="";
 		
 		try {
 			con = getConnection();  // 연결
-			String sql = "select * from address order by num desc";
+			if(word.equals("")) {  // 검색 아닐때
+				sql = "select * from address order by num desc";
+			}else {  // 검색
+				sql="select * from address where "+field+" like '%"+word+"%' order by num desc";
+			}
+		
 			st = con.createStatement();  
 			rs = st.executeQuery(sql);  // sql문 실행
 			while(rs.next()) {
@@ -77,15 +83,22 @@ public class AddressDAO {
 	}
 	
 	// 카운트
-	public int getCount() {
+	public int getCount(String field, String word) {
 		int count = 0;
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
+		String sql;
 		
 		try {
 			con = getConnection();  // 디비 연결 설정
-			String sql = "select count(*) from address";  // 실행할 sql문 지정
+			if(word.equals("")) {
+				sql = "select count(*) from address";  // 실행할 sql문 지정
+			}
+			else {
+				sql = "select count(*) from address where "+field+" like '%"+word+"%'";
+			}
+			
 			st = con.createStatement(); // Statement인스턴스로 생성되는 ResultSet인스턴스의 형태를 바꿔주는 메소드
 			rs = st.executeQuery(sql);
 			if(rs.next()) {

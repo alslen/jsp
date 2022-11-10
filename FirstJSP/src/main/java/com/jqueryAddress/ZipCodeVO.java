@@ -8,6 +8,8 @@ public class ZipCodeVO {
 	private String dong;
 	private String bunji;
 	private int seq;
+	
+	//getter, setter
 	public String getZipcode() {
 		return zipcode == null ? " " : zipcode.trim();
 	}
@@ -45,7 +47,7 @@ public class ZipCodeVO {
 		this.seq = seq;
 	}
 	
-	//getter, setter
+
 	
 	
 }
