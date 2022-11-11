@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> <!-- page : 현재 페이지에 대한 정보를 알려줌 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,10 +33,22 @@
 				data:
 				{
 					"userid" : $("#userid").val(),
-					"pwd" : $("pwd").val()
+					"pwd" : $("#pwd").val()
 				},
 				success:function(resp){
-					alert(resp)
+					if(resp.trim()==-1){  // trim()은 앞뒤의 공백제거
+						alert("회원이 아닙니다. 회원가입하세요");
+					} else if(resp.trim()==0){ // 일반회원이면 ==> memberView.jsp 
+						alert("일반회원 로그인 성공")   
+						$(location).attr("href","memberView.jsp")
+						
+					} else if(resp.trim()==1){ // 관리자 ==> memberList.jsp
+						alert("관리자 로그인 성공")
+						$(location).attr("href","memberList.jsp")
+						
+					} else if(resp.trim()==2){
+						alert("비밀번호가 틀립니다. 비밀 번호를 확인하세요");
+					}
 				},
 				error:function(e){
 					alert(e+"error")
@@ -49,9 +61,9 @@
 <body>
 
 <div class="container mt-3">
-<div align="right">
-	<a href="memberList.jsp">전체보기</a><br><br>
-</div>
+	<div align="right">
+		<a href="memberForm.jsp">회원가입</a>
+	</div>
   <h2>로그인</h2>
   <form action="" method="post" id="frm">
     <div class="form-group">
@@ -65,6 +77,7 @@
     </div>
  
     <button type="button" class="btn btn-primary" id="loginBtn">로그인</button>
+    <br><br>
   </form>
 </div>
 </body>

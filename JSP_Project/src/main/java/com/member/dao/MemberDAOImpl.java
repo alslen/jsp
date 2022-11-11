@@ -90,7 +90,25 @@ public class MemberDAOImpl implements MemberDAO{
 	// 수정
 	@Override
 	public void memberUpdate(MemberDTO member) {
+		Connection con = null;
+		PreparedStatement ps = null;
 		
+		try {
+			con = getConnection();
+			String sql ="update memberdb set name=?, pwd=?, phone=?, email=?, admin=? where userid=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, member.getName());
+			ps.setString(2, member.getPwd());
+			ps.setString(3, member.getPhone());
+			ps.setString(4, member.getEmail());
+			ps.setInt(5, member.getAdmin());
+			ps.setString(6, member.getUserid());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, ps, ps, null);
+		}
 	}
 
 	// 삭제
@@ -115,7 +133,31 @@ public class MemberDAOImpl implements MemberDAO{
 	// 상세보기
 	@Override
 	public MemberDTO findById(String userid) {
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		MemberDTO member = null;
+		
+		try {
+			con = getConnection();
+			String sql = "select * from memberdb where userid='"+userid+"'";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				member = new MemberDTO();
+				member.setAdmin(rs.getInt("admin"));
+				member.setEmail(rs.getString("email"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setPwd(rs.getString("pwd"));
+				member.setUserid(rs.getString("userid"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, null, st, rs);
+		}
+		return member;
 	}
 
 	// 아이디 중복확인
@@ -147,31 +189,28 @@ public class MemberDAOImpl implements MemberDAO{
 	@Override
 	public int loginCheck(String userid, String pwd) {
 		Connection con = null;
-		PreparedStatement ps = null;
+		Statement st = null;
 		ResultSet rs = null;
-		int num = 0;
+		int flag = -1;  // 회원아님(-1), 회원 성공(0), 비번 오류(2)
 	
 		try {
 			con = getConnection();
-			String sql = "select pwd from memberdb where userid=?";
-			ps = con.prepareStatement(sql);
-			rs = ps.executeQuery();
-			if(rs.next()) {
-				if(rs.getString(1).contentEquals(pwd)) {
-					num = 1;// 로그인 성공
+			String sql = "select pwd,admin from memberdb where userid='"+userid+"'";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {  // 회원이거나 비번오류
+				if(rs.getString("pwd").equals(pwd)) {  // 회원(입력한 비번이 맞는지 검사)
+					flag = rs.getInt("admin");  // 1: 관리자, 0 : 일반회원
+				} else {   // 회원이지만 비번오류
+					flag = 2;
 				}
-				else {
-					num = 0; //비밀번호 불일치
-				}
-			}
-			num = -1; // 아이디가 없음
-			
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			closeConnection(con, ps, null, rs);
+			closeConnection(con, null, st, rs);
 		}
-		return num;
+		return flag;
 	}
 
 	// 회원수

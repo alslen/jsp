@@ -20,8 +20,8 @@
 
 <div class="container mt-3">
 <div align="right">
-	<a href="memberList.jsp">전체보기</a><br><br>
-</div>
+		<a href="loginForm.jsp">로그인</a>
+	</div>
   <h2>회원가입</h2>
   <form action="memberInsertPro.jsp" method="post" id="frm">
     <div class="form-group">
@@ -76,6 +76,7 @@
 	<br><br>
    
     <button type="button" class="btn btn-primary" id="sendBtn">Submit</button>
+    <br><br>
   </form>
 </div>
 

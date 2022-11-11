@@ -22,6 +22,7 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
+	String sid = (String)session.getAttribute("sUserid");  // sUserid에 들어있는 값을 가지고 옴
 	MemberDAO dao = MemberDAOImpl.getInstance();
 	ArrayList<MemberDTO> arr = dao.memberList();
 	int count = dao.getCount();
@@ -30,12 +31,11 @@
 </head>
 <body>
 <div class="container mt-3">
-<div align="right">
-	<a href="memberForm.jsp">회원가입</a><br><br>
-</div>
-
+	<div align="right">
+		<a href="memberView.jsp"><%=sid %>님</a> 반갑습니다. / <a href="logout.jsp">로그아웃</a>
+	</div>
 <!-- 변경된 내용을 적용하기 위해서 영역을 지정해줘야함 -->
-<h3>member 전체보기(<span id="cntSpan"><%=count %></span>)</h3>
+<h3>회원리스트(<span id="cntSpan"><%=count %></span>)</h3>
 
 <hr>
 
