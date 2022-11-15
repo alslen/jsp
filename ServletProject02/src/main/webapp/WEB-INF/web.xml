@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletProject02</display-name>
+  <!-- web.xml에서 서블릿을 맵핑해서 넘긴다. -->
+  <!-- adder -->
+  <servlet>
+  	<servlet-name>AdderServlet</servlet-name>
+  	<servlet-class>com.controller.AdderServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>AdderServlet</servlet-name>
+  	<url-pattern>/addResult.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- bbs -->
+  <servlet>
+  	<servlet-name>BbsSerVlet</servlet-name>
+  	<servlet-class>com.controller.BbsServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>BbsSerVlet</servlet-name>
+  	<url-pattern>/bbs</url-pattern>
+  </servlet-mapping>
+  
+  <!-- infor.go -->
+  <servlet>
+  	<servlet-name>InfoServlet</servlet-name>
+  	<servlet-class>com.controller.InfoServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>InfoServlet</servlet-name>
+  	<url-pattern>/exam/infor.go</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+</web-app>
