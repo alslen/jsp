@@ -32,7 +32,7 @@
 	int currentPage = Integer.parseInt(pageNum); // 현재 페이지
 	int pageSize = 5;  // 한 화면에 보여지는 게시물 수 
 	
-	// 게시물 번호
+	// 한 화면에 보여지는 게시물 번호
 	int startRow = (currentPage-1) * pageSize+1;  // 1 6 11
 	int endRow = currentPage * pageSize;  // 5 10 15
 	
@@ -121,7 +121,6 @@
 <% 
 			}
 %>
-		
 <%
 		}
 		

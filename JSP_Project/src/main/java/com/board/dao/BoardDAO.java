@@ -294,6 +294,56 @@ public class BoardDAO {
 			closeConnection(con, ps, ps, null);
 		}
 	}
+	
+	// comment list
+	public ArrayList<CommentDTO> commentList(int bnum) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<CommentDTO> carr = new ArrayList<CommentDTO>();
+		
+		try {
+			con = getConnection();
+			st = con.createStatement();
+			String sql = "select * from commentboard where bnum="+bnum+" order by cnum desc";
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				CommentDTO comment = new CommentDTO();
+				comment.setBnum(rs.getInt("bnum"));
+				comment.setCnum(rs.getInt("cnum"));
+				comment.setMsg(rs.getString("msg"));
+				comment.setRegdate(rs.getString("regdate"));
+				comment.setUserid(rs.getString("userid"));
+				carr.add(comment);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, null, st, rs);
+		}
+		return carr;
+	}
+	
+	// comment count
+	public int getCommentCount(int bnum) {
+		int count = 0;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		
+		try {
+			con = getConnection();
+			String sql = "select count(*) from commentboard where bnum="+bnum;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	// ´Ý±â
 	private void closeConnection(Connection con, PreparedStatement ps, Statement st, ResultSet rs) {
 			try {

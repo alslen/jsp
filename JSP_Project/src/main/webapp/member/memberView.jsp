@@ -27,6 +27,7 @@
 <div class="container mt-3">
 <div align = "right">
 	<%=sid %>님 반갑습니다. /<a href="logout.jsp">로그아웃</a> 
+	/ <a href="../border/list.jsp">게시판</a>
 </div>
   <h2>회원정보 수정</h2>
   <form action="memberUpdatePro.jsp" method="post" id="frm">

@@ -33,6 +33,7 @@
 <div class="container mt-3">
 	<div align="right">
 		<a href="memberView.jsp"><%=sid %>님</a> 반갑습니다. / <a href="logout.jsp">로그아웃</a>
+		/ <a href="/JSP_Project/border/list.jsp">게시판</a> <!-- 절대경로 -->
 	</div>
 <!-- 변경된 내용을 적용하기 위해서 영역을 지정해줘야함 -->
 <h3>회원리스트(<span id="cntSpan"><%=count %></span>)</h3>

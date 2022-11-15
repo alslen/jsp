@@ -67,7 +67,30 @@
 	<input type="button" value="comment Insert" id="commentBtn"/>
 </div>
 
+Comment(<span id="cntSpan"></span>)<br/>
+<div id="result"></div> <!-- 이 영역에 댓글을 출력해줄 것임 -->
+
 <script>
+
+var init = function() {
+	$.getJSON("commentList.jsp",
+			{"bnum" : $("#num").val()},
+			function(resp){  // resp에는 main이 담겨져 있음(main에는 데이터와 개수가 담겨 있음)
+				var str="<table>";
+				$.each(resp.dataObj, function(key,val){  // resp.dataObj(데이터)를 반복해서 출력
+					str += "<tr>"
+					str += "<td>"+val.msg+"</td>"
+					str += "<td>"+val.userid+"</td>"
+					str += "<td>"+val.regdate+"</td>"
+					str += "</tr>"
+				})
+				str += "</table>"
+				$("#cntSpan").text(resp.countObj.count);
+				$("#result").html(str);
+				
+			}  // 콜백함수
+	) // getJSON
+}  // function
 	$("#commentBtn").click(function() {
 		if($("#msg").val()==""){
 			alert("메시지를 입력하세요")
@@ -78,13 +101,22 @@
 			url : "commentInsert.jsp",
 			data : {"msg" : $("#msg").val(), "bnum" : $("#num").val()},
 			success:function(resp){
-				alert(resp)
+				if(resp.trim()==1){  // 로그인 안됨
+					alert("로그인하세요");
+					location.href="../member/loginForm.jsp";  // 상대경로로 표현
+				} else { // 로그인x
+					init();
+					$("#msg").val("")
+				}
+				
 			},
 			error : function(e){
 				alert(e+"error")
 			}
 		})  // ajax
 	})  // commentBtn
+	
+	init(); // 변수를 함수처럼 부름, 이걸 제일 먼저 실행
 </script>
 
 </body>
