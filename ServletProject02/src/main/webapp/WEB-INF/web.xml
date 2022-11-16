@@ -2,6 +2,18 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>ServletProject02</display-name>
   <!-- web.xml에서 서블릿을 맵핑해서 넘긴다. -->
+  
+  <!-- person -->
+  <servlet>
+  	<servlet-name>PersonServlet</servlet-name> <!-- servlet-name은 같아야 함 -->
+  	<servlet-class>com.controller.PersonServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>PersonServlet</servlet-name> <!-- PersonServlet을 찾으러감 -->
+  	<url-pattern>/exam/person</url-pattern>
+  </servlet-mapping>
+  
   <!-- adder -->
   <servlet>
   	<servlet-name>AdderServlet</servlet-name>
