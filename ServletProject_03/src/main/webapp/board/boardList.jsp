@@ -2,6 +2,21 @@
     pageEncoding="UTF-8"%>
 <%@include file="../include/header.jsp" %>
 
+<script>
+$(function(){
+	$("#writeBtn").click(function(){
+		if(${empty sessionScope.suser}){
+			alert("로그인 하세요");
+			location.href="../member/login";
+			return false;
+		}
+		location.href="write";
+
+	})
+})
+	
+</script>
+
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1>Board List</h1>      
@@ -35,7 +50,7 @@
 	</tbody>
 </table>
 	<div align="right">
-		<input type="button" value="글쓰기" class="btn btn-primary" onclick="location.href='boardWrite.jsp'">
+		<input type="button" value="글쓰기" class="btn btn-primary" id="writeBtn">
 	</div>
 </div>
 

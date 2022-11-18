@@ -13,7 +13,7 @@
 <input type="hidden" id="num" name="num"/> 
 	 <div class="form-group">
       	<label for="userid">Userid:</label>
-      	<input type="text" class="form-control" id="userid" placeholder="Enter userid" name="userid">
+      	<input type="text" class="form-control" id="userid" placeholder="Enter userid" name="userid" value="${sessionScope.suser.userid }" readonly="readonly">
     </div>
     
      <div class="form-group">
@@ -23,7 +23,7 @@
     
      <div class="form-group">
       	<label for="email">Email:</label>
-      	<input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+      	<input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="${sessionScope.suser.email }" readonly="readonly">
     </div>
     
      <div class="form-group">

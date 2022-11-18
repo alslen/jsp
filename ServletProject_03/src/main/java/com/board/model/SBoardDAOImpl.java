@@ -40,7 +40,23 @@ public class SBoardDAOImpl implements SBoardDAO {
 	// 수정
 	@Override
 	public void boardUpdate(BoardDTO board) {
+		Connection con = null;
+		PreparedStatement ps = null;
 		
+		try {
+			con = DBConnection.getConnection();
+			String sql = "update simpleboard set subject=?, content=?, email=? where num=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, board.getSubject());
+			ps.setString(2, board.getContent());
+			ps.setString(3, board.getEmail());
+			ps.setInt(4, board.getNum());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, ps, ps, null);
+		}
 	}
 
 	// 전체보기
@@ -101,11 +117,15 @@ public class SBoardDAOImpl implements SBoardDAO {
 		Statement st = null;
 		ResultSet rs = null;
 		BoardDTO board = null;
-		
+		String sql = "";
 		try {
 			con = DBConnection.getConnection();
-			String sql = "select * from simpleboard where num="+num;
 			st = con.createStatement();
+			// 상세보기할 때마다 readcount(조회수) 1 증가
+			sql = "update simpleboard set readcount = readcount+1 where num="+num;
+			st.executeUpdate(sql);
+			
+			sql = "select * from simpleboard where num="+num;
 			rs = st.executeQuery(sql);
 			if(rs.next()) {
 				board = new BoardDTO();
@@ -127,18 +147,74 @@ public class SBoardDAOImpl implements SBoardDAO {
 	// 댓글 추가
 	@Override
 	public void commentInsert(CommentDTO comment) {
+		Connection con = null;
+		PreparedStatement ps = null;
 		
+		try {
+			con = DBConnection.getConnection();
+			String sql ="insert into comboard values(comboard_seq.nextval,?,?,sysdate,?)";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, comment.getUserid());
+			ps.setString(2, comment.getMsg());
+			ps.setInt(3, comment.getBnum());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, ps, ps, null);
+		}
 	}
 
 	// 댓글 전체보기
 	@Override
 	public ArrayList<CommentDTO> findAllComment(int bnum) {
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<CommentDTO> carr = new ArrayList<CommentDTO>();
+		try {
+			con = DBConnection.getConnection();
+			String sql ="select * from comboard where bnum="+bnum;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				CommentDTO comment = new CommentDTO();
+				comment.setBnum(rs.getInt("bnum"));
+				comment.setCnum(rs.getInt("cnum"));
+				comment.setMsg(rs.getString("msg"));
+				comment.setRegdate(rs.getString("regdate"));
+				comment.setUserid(rs.getString("userid"));
+				carr.add(comment);
+			}
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return carr;
 	}
 
 	@Override
 	public int commentCount(int bnum) {
-		return 0;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			con = DBConnection.getConnection();
+			String sql = "select count(*) from comboard where bnum="+bnum;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 	
 	// 닫기

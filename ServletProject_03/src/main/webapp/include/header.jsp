@@ -46,7 +46,7 @@
       <a class="nav-link" href="">회원목록</a>
    </li>
    <li class="nav-item">
-      <a class="nav-link" href="">상품등록</a>
+      <a class="nav-link" href="/product/pInsert">상품등록</a>
    </li>
    <span class="navbar-text">${sessionScope.suser.name}(관리자)님 반갑습니다.</span>
   </c:if>
