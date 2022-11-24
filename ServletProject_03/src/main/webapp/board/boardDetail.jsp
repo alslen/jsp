@@ -6,7 +6,7 @@
 <script>
 function del(){
 	if(confirm('정말 삭제할까요?')){
-		
+		location.href="boardDelete?num=${board.num}";
 	}
 }
 </script>

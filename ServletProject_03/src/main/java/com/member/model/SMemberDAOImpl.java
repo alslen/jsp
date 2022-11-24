@@ -40,40 +40,172 @@ public class SMemberDAOImpl implements SMemberDAO{
 		}
 	}
 
+	// 전체보기
 	@Override
 	public ArrayList<SMemberDTO> getMember() {
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<SMemberDTO> arr = new ArrayList<SMemberDTO>();
+		try {
+			con = DBConnection.getConnection();
+			String sql = "select * from memberdb";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				SMemberDTO member = new SMemberDTO();
+				member.setAdmin(rs.getInt("admin"));
+				member.setEmail(rs.getString("email"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setPwd(rs.getString("pwd"));
+				member.setUserid(rs.getString("userid"));
+				arr.add(member);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return arr;
 	}
 
+	// 삭제
 	@Override
 	public int memberDelete(String userid) {
-		return 0;
+		Connection con = null;
+		Statement st = null;
+		int flag = 0;
+		try {
+			con = DBConnection.getConnection();
+			String sql = "delete from memberdb where userid='"+userid+"'";
+			System.out.println(sql);
+			st = con.createStatement();
+			flag = st.executeUpdate(sql);
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, null, st, null);
+		}
+		return flag;
 	}
 
+	// 수정(비밀번호가 맞을 때만 수정)
 	@Override
 	public int memberUpdate(SMemberDTO member) {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql ="";
+		int flag = 0;
+		
+		try {
+			con = DBConnection.getConnection();
+			sql = "select pwd from memberdb where userid='"+member.getUserid()+"'";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			System.out.println(sql);
+			if(rs.next()) {
+				if(rs.getString(1).equals(member.getPwd())) {
+					sql = "update memberdb set name=?, email=?, phone=? where userid=?";
+					System.out.println(sql);
+					ps = con.prepareStatement(sql);
+					ps.setString(1, member.getName());
+					ps.setString(2, member.getEmail());
+					ps.setString(3, member.getPhone());
+					ps.setString(4, member.getUserid());
+					flag = ps.executeUpdate();
+				}
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, ps, ps, rs);
+		}
+		
+		return flag;
 	}
 
+	// 상세보기
 	@Override
 	public SMemberDTO findById(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		SMemberDTO member = null;
+		
+		try {
+			con = DBConnection.getConnection();
+			String sql ="select * from memberdb where userid='"+userid+"'";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				member = new SMemberDTO();
+				member.setAdmin(rs.getInt("admin"));
+				member.setEmail(rs.getString("email"));
+				member.setName(rs.getString("name"));
+				member.setPhone(rs.getString("phone"));
+				member.setPwd(rs.getString("pwd"));
+				member.setUserid(rs.getString("userid"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return member;
 	}
 
+	// 회원수
 	@Override
 	public int memberCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			con = DBConnection.getConnection();
+			String sql = "select count(*) from memberdb";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 
+	// 아이디 중복확인
 	@Override
 	public String memberIdCheck(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String flag = "yes";  // 사용가능
+		
+		try {
+			con = DBConnection.getConnection();
+			String sql = "select * from memberdb where userid='"+userid+"'";
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {  // userid가 있으면
+				flag = "no";  // 사용불가
+			}
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		} finally {
+			closeConnection(con, null, st, rs);
+		}
+		
+		return flag;
 	}
 
+	// 로그인 체크
 	@Override
 	public SMemberDTO memberLoginCheck(String userid, String pwd) {
 		

@@ -20,7 +20,7 @@
     <div class="row">
     	<div class="col">
        		<label for="userid">UserID:</label>
-      		<input type="text" class="form-control" id="userid" placeholder="Enter UserID" name="userid" >
+      		<input type="text" class="form-control" id="userid" placeholder="Enter UserID" name="userid"  readonly="readonly">
       		<!-- readonly="readonly"를 한 이유는 회원가입 창에서 아이디를 입력하지 못하게 하기 위해서 -->
     	</div>
    		<div class="col align-self-end">

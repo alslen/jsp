@@ -26,6 +26,15 @@
     <li class="nav-item">
       <a class="nav-link" href="/product/plist">상품리스트</a>
     </li>
+    	<c:if test="${sessionScope.suser.admin == 1}">
+  <!-- 관리자모드 -->
+		  <li class="nav-item">
+		      <a class="nav-link" href="/member/memberlist">회원목록</a>
+		   </li>
+		   <li class="nav-item">
+		      <a class="nav-link" href="/product/pInsert">상품등록</a>
+		   </li>
+	  </c:if>
   </ul>
   
   <ul class="navbar-nav">
@@ -41,15 +50,8 @@
   
   <!-- 관리자라면 -->
   <c:if test="${sessionScope.suser.admin == 1}">
-  <!-- 관리자모드 -->
-  <li class="nav-item">
-      <a class="nav-link" href="">회원목록</a>
-   </li>
-   <li class="nav-item">
-      <a class="nav-link" href="/product/pInsert">상품등록</a>
-   </li>
-   <span class="navbar-text">${sessionScope.suser.name}(관리자)님 반갑습니다.</span>
-  </c:if>
+    <span class="navbar-text">${sessionScope.suser.name}(관리자)님 반갑습니다.</span>
+   </c:if>
  
  <!-- 일반회원이라면 -->
   <c:if test="${sessionScope.suser.admin == 0}">
@@ -62,7 +64,7 @@
       <a class="nav-link" href="/member/logout">로그아웃</a>
     </li>
      <li class="nav-item">
-      <a class="nav-link" href="/member/join">회원변경</a>
+      <a class="nav-link" href="/member/memberDetail">회원변경</a>
     </li>
   </c:if>
   </ul>

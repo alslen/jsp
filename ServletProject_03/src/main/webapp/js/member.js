@@ -59,7 +59,7 @@ $(document).ready(function() {
 			}
 			$.ajax({  // 비동기 함수 사용(팝업창을 새로 띄우지않게 하기 위해)
 				type:"post",
-				url:"idCheckPro.jsp",
+				url:"idCheck",
 				data : {"userid" : $("#userid").val()},
 				success:function(resp){  
 					//alert(resp.trim().length) // trim()공백제거해줌 
